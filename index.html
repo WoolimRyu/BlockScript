@@ -1,0 +1,57 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+<style type="text/css">div{box-sizing:border-box;}#container{height:500px;}#container:after{content:'';display:block;clear:both;}#area{position:relative;float:left;background-color:#000;width:700px;height:100%;}#sidebar{float:left;padding:5px;height:100%;}.square{position:absolute;width:40px;height:40px;background:#ccc;opacity:.7;text-align:center;font-size:12px;line-height:38px;cursor:move;}#sidebar .square{top:60px;opacity:1;}.square.dragging{opacity:.5}.square.dragging.conflict{background-color:#f00}.adv{color:coral}.adv:before{content:'*';position:relative;top:-5px;font-size:.8em}</style>
+<script src="script.js"></script>
+<script>
+	document.addEventListener('DOMContentLoaded', function(){
+		var sampleSquare = document.querySelector('#sidebar .square');
+
+		sampleSquare.addEventListener('mousedown', function(event){
+			event.preventDefault();
+			(new shape.Square())
+				.setPosition(event.pageX-20,event.pageY-20)
+				.startDragging(event)
+				.setContainer(document.querySelector('#area'))
+				.setParent(document.body);
+		});
+	});
+	</script>
+</head>
+<body>
+<div id="container">
+<div id="area"></div>
+<div id="sidebar">
+<p>↓ 아래 사각형을 드래그하세요. ↓</p>
+<div class="square"></div>
+</div>
+</div>
+<h2>요구사항</h2>
+<ul>
+<li>드래그 앤 드롭:
+<ul>
+<li>오른쪽에 있는 회색 사각형에서 마우스 버튼을 누르면 드래그를 시작합니다.</li>
+<li>상자를 드래그하여 왼쪽에 있는 <strong>검은 상자 안</strong>에 드롭하면(=마우스 버튼을 떼면) 낙하를 시작합니다.</li>
+<li>모든 상자는 <code>square</code>라는 클래스를 가지고, 드래그 중인 상자에는 <code>dragging</code> 클래스가 추가로 붙습니다.</li>
+<li class="adv">드래그 하는 도중 다른 상자와 부딪힌 상태에 있는 상자에는 <code>conflict</code> 클래스가 추가됩니다.</li>
+</ul>
+</li>
+<li>낙하하는 상자의 특성:
+<ul>
+<li>낙하 속도는 <code>20px/s</code>입니다.</li>
+<li>상자의 밑면이 검은 상자의 바닥 또는 <span class="adv">다른 상자와 닿을 때까지</span> 낙하합니다.</li>
+<li>1번부터 일련 번호가 부여됩니다.</li>
+<li>동시에 2개 이상의 상자가 낙하하는 경우는 없습니다.</li>
+</ul>
+</li>
+<li>낙하 예외:
+<ul>
+<li>회색 상자 일부가 검은 상자를 벗어나면 낙하하지 않습니다.</li>
+<li class="adv">다른 상자와 부딪히면(=영역이 겹치면) 낙하하지 않습니다.</li>
+</ul>
+</li>
+</ul>
+</body>
+</html>
